@@ -1,0 +1,249 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		29B984E5523DCD29D76CF2A6 /* PhotoToPDFApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33E883CC8522CA0C3684933 /* PhotoToPDFApp.swift */; };
+		2F06C934686E7B33FFC328CB /* PDFExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F8AF5D6A7C132225DE42F1 /* PDFExport.swift */; };
+		7822D3E2E6CEC282E80B2EE1 /* CameraScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BADE067E063ADF0E7FB36F7 /* CameraScreen.swift */; };
+		94AD4FD125BD7B1D39084EB5 /* AppFailure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 428B1F10B0EBADCEB99B2F40 /* AppFailure.swift */; };
+		A4E9C50C21ED9A0F0B2256C8 /* PageStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 597A295498406586CFBBDA7F /* PageStore.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		428B1F10B0EBADCEB99B2F40 /* AppFailure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFailure.swift; sourceTree = "<group>"; };
+		597A295498406586CFBBDA7F /* PageStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageStore.swift; sourceTree = "<group>"; };
+		9BADE067E063ADF0E7FB36F7 /* CameraScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraScreen.swift; sourceTree = "<group>"; };
+		A8792157CB4F27FB949C035F /* PhotoToPDF.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoToPDF.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9F8AF5D6A7C132225DE42F1 /* PDFExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFExport.swift; sourceTree = "<group>"; };
+		E33E883CC8522CA0C3684933 /* PhotoToPDFApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoToPDFApp.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E2AA269EB967A8853A258BFA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0035FE99EA2940F7FA633A58 = {
+			isa = PBXGroup;
+			children = (
+				26528A5FC3CFAE9924D0FA33 /* PhotoToPDF */,
+				5BAB63C60BF318DAB40A4F04 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		26528A5FC3CFAE9924D0FA33 /* PhotoToPDF */ = {
+			isa = PBXGroup;
+			children = (
+				428B1F10B0EBADCEB99B2F40 /* AppFailure.swift */,
+				9BADE067E063ADF0E7FB36F7 /* CameraScreen.swift */,
+				C9F8AF5D6A7C132225DE42F1 /* PDFExport.swift */,
+				597A295498406586CFBBDA7F /* PageStore.swift */,
+				E33E883CC8522CA0C3684933 /* PhotoToPDFApp.swift */,
+			);
+			path = PhotoToPDF;
+			sourceTree = "<group>";
+		};
+		5BAB63C60BF318DAB40A4F04 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A8792157CB4F27FB949C035F /* PhotoToPDF.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		34A04005BCAF206EEC990BD9 /* PhotoToPDF */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 04229C262AC03CB8C1234C52 /* Build configuration list for PBXNativeTarget "PhotoToPDF" */;
+			buildPhases = (
+				878A52FC5FF6A57D50B7B870 /* Sources */,
+				E2AA269EB967A8853A258BFA /* Frameworks */,
+				41D311A605520FC7B8B9A980 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PhotoToPDF;
+			productName = PhotoToPDF;
+			productReference = A8792157CB4F27FB949C035F /* PhotoToPDF.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		244210E48437B6556980A702 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					34A04005BCAF206EEC990BD9 = {
+						CreatedOnToolsVersion = 16.0;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = AAB2723FF2C8E6D1C298C1E4 /* Build configuration list for PBXProject "PhotoToPDF" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = ru;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				ru,
+				en,
+				Base,
+			);
+			mainGroup = 0035FE99EA2940F7FA633A58;
+			productRefGroup = 5BAB63C60BF318DAB40A4F04 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				34A04005BCAF206EEC990BD9 /* PhotoToPDF */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		41D311A605520FC7B8B9A980 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		878A52FC5FF6A57D50B7B870 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94AD4FD125BD7B1D39084EB5 /* AppFailure.swift in Sources */,
+				7822D3E2E6CEC282E80B2EE1 /* CameraScreen.swift in Sources */,
+				2F06C934686E7B33FFC328CB /* PDFExport.swift in Sources */,
+				A4E9C50C21ED9A0F0B2256C8 /* PageStore.swift in Sources */,
+				29B984E5523DCD29D76CF2A6 /* PhotoToPDFApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		0B0C687DF8B6B8DC790B519C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		6C7EFF6369083C8E1F2B1994 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Фото в PDF";
+				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Камера нужна для съёмки страниц и объединения фотографий в PDF.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIFileSharingEnabled = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.2;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kerysfel.PhotoToPDF;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		73EBF6644258C120893E685D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		DD75E2CB1C510A828AC72D96 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Фото в PDF";
+				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Камера нужна для съёмки страниц и объединения фотографий в PDF.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIFileSharingEnabled = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.2;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kerysfel.PhotoToPDF;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		04229C262AC03CB8C1234C52 /* Build configuration list for PBXNativeTarget "PhotoToPDF" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6C7EFF6369083C8E1F2B1994 /* Debug */,
+				DD75E2CB1C510A828AC72D96 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AAB2723FF2C8E6D1C298C1E4 /* Build configuration list for PBXProject "PhotoToPDF" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				73EBF6644258C120893E685D /* Debug */,
+				0B0C687DF8B6B8DC790B519C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 244210E48437B6556980A702 /* Project object */;
+}
