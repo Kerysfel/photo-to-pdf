@@ -11,6 +11,17 @@ Directory.CreateDirectory(folder);
 try
 {
     TestUpdateSelection();
+    var settingsPath = Path.Combine(folder, "settings");
+    var settings = new ReceiverSettings(settingsPath);
+    if (settings.LoadFolder() != null) throw new Exception("Unexpected saved folder");
+    var selectedFolder = Path.Combine(folder, "PDF files");
+    settings.SaveFolder(selectedFolder);
+    if (new ReceiverSettings(settingsPath).LoadFolder() != selectedFolder)
+        throw new Exception("Saved folder was not restored");
+    settings.SaveFolder(folder);
+    if (new ReceiverSettings(settingsPath).LoadFolder() != folder || Directory.GetFiles(settingsPath, "*.tmp").Length != 0)
+        throw new Exception("Updated folder or cleanup failed");
+    Console.WriteLine("folder-settings: passed");
     await RejectWrongCertificate();
     await Run("success");
     await Run("wrong-secret");

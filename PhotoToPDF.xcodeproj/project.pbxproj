@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		111111111111111111111105 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 111111111111111111111106 /* Assets.xcassets */; };
 		111111111111111111111101 /* ComputerTransfer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111111111111111111111103 /* ComputerTransfer.swift */; };
 		111111111111111111111102 /* ComputerTransferView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111111111111111111111104 /* ComputerTransferView.swift */; };
 		29B984E5523DCD29D76CF2A6 /* PhotoToPDFApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33E883CC8522CA0C3684933 /* PhotoToPDFApp.swift */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		111111111111111111111106 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		111111111111111111111103 /* ComputerTransfer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComputerTransfer.swift; sourceTree = "<group>"; };
 		111111111111111111111104 /* ComputerTransferView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComputerTransferView.swift; sourceTree = "<group>"; };
 		428B1F10B0EBADCEB99B2F40 /* AppFailure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFailure.swift; sourceTree = "<group>"; };
@@ -49,6 +51,7 @@
 		26528A5FC3CFAE9924D0FA33 /* PhotoToPDF */ = {
 			isa = PBXGroup;
 			children = (
+				111111111111111111111106 /* Assets.xcassets */,
 				111111111111111111111103 /* ComputerTransfer.swift */,
 				111111111111111111111104 /* ComputerTransferView.swift */,
 				428B1F10B0EBADCEB99B2F40 /* AppFailure.swift */,
@@ -127,6 +130,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				111111111111111111111105 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -167,7 +171,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Фото в PDF";
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
@@ -181,7 +186,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4;
+				MARKETING_VERSION = 1.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kerysfel.PhotoToPDF;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -208,7 +213,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Фото в PDF";
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
@@ -222,7 +228,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4;
+				MARKETING_VERSION = 1.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kerysfel.PhotoToPDF;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

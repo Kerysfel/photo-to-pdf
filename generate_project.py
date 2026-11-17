@@ -15,11 +15,13 @@ def refs(names):
 for source in sources:
     obj('file:' + source.name, f'isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = {source.name}; sourceTree = "<group>";')
     obj('build:' + source.name, f'isa = PBXBuildFile; fileRef = {ident("file:" + source.name)};')
+obj('assetsFile', 'isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>";')
+obj('assetsBuild', f'isa = PBXBuildFile; fileRef = {ident("assetsFile")};')
 obj('product', 'isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoToPDF.app; sourceTree = BUILT_PRODUCTS_DIR;')
 obj('sources', f'isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = {refs(["build:" + s.name for s in sources])}; runOnlyForDeploymentPostprocessing = 0;')
 obj('frameworks', 'isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0;')
-obj('resources', 'isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0;')
-obj('sourceGroup', f'isa = PBXGroup; children = {refs(["file:" + s.name for s in sources])}; path = PhotoToPDF; sourceTree = "<group>";')
+obj('resources', f'isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = {refs(["assetsBuild"])}; runOnlyForDeploymentPostprocessing = 0;')
+obj('sourceGroup', f'isa = PBXGroup; children = {refs(["assetsFile"] + ["file:" + s.name for s in sources])}; path = PhotoToPDF; sourceTree = "<group>";')
 obj('productsGroup', f'isa = PBXGroup; children = {refs(["product"])}; name = Products; sourceTree = "<group>";')
 obj('mainGroup', f'isa = PBXGroup; children = {refs(["sourceGroup", "productsGroup"])}; sourceTree = "<group>";')
 obj('target', f'isa = PBXNativeTarget; buildConfigurationList = {ident("targetConfigs")}; buildPhases = {refs(["sources", "frameworks", "resources"])}; buildRules = (); dependencies = (); name = PhotoToPDF; productName = PhotoToPDF; productReference = {ident("product")}; productType = "com.apple.product-type.application";')
@@ -31,8 +33,9 @@ for config in ['Debug', 'Release']:
     else:
         project_settings += ' DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym"; SWIFT_OPTIMIZATION_LEVEL = "-O"; SWIFT_COMPILATION_MODE = wholemodule;'
     target_settings = '''CODE_SIGN_STYLE = Automatic;
-CURRENT_PROJECT_VERSION = 6;
-MARKETING_VERSION = 1.4;
+CURRENT_PROJECT_VERSION = 7;
+MARKETING_VERSION = 1.5;
+ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 GENERATE_INFOPLIST_FILE = YES;
 INFOPLIST_KEY_CFBundleDisplayName = "Фото в PDF";
 INFOPLIST_KEY_NSCameraUsageDescription = "Камера нужна для съёмки страниц и сканирования QR-кода компьютера.";

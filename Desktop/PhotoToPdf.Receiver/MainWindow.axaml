@@ -1,5 +1,5 @@
 <Window xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        x:Class="PhotoToPdf.Receiver.MainWindow" Title="Фото в PDF — приёмник" Width="650" Height="720" MinWidth="480" MinHeight="600">
+        x:Class="PhotoToPdf.Receiver.MainWindow" Icon="/Assets/AppIcon.ico" Title="Фото в PDF — приёмник" Width="650" Height="720" MinWidth="480" MinHeight="600">
   <ScrollViewer><StackPanel Margin="32" Spacing="16">
     <TextBlock Text="Получение PDF" FontSize="26" FontWeight="SemiBold"/>
     <TextBlock Text="Передача с телефона по локальной сети" Opacity="0.75"/>

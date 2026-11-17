@@ -17,10 +17,14 @@ public partial class MainWindow : Window
     private AvailableUpdate? availableUpdate;
     private readonly CancellationTokenSource updateCancellation = new();
     private string folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Фото в PDF");
+    private readonly ReceiverSettings settings = new(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PhotoToPDF", "Receiver"));
 
     public MainWindow()
     {
         InitializeComponent();
+        try { folder = settings.LoadFolder() ?? folder; }
+        catch (Exception error) when (error is IOException or UnauthorizedAccessException or System.Text.Json.JsonException)
+        { Status.Text = "Не удалось прочитать настройки"; Detail.Text = error.Message; }
         FolderText.Text = folder;
         var addresses = NetworkInterface.GetAllNetworkInterfaces()
             .Where(n => n.OperationalStatus == OperationalStatus.Up && n.NetworkInterfaceType != NetworkInterfaceType.Loopback)
@@ -38,7 +42,12 @@ public partial class MainWindow : Window
     private async void ChooseFolder(object? sender, RoutedEventArgs e)
     {
         var selected = await StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions { Title = "Папка для PDF", AllowMultiple = false });
-        if (selected.Count == 1 && selected[0].TryGetLocalPath() is string path) { folder = path; FolderText.Text = path; }
+        if (selected.Count == 1 && selected[0].TryGetLocalPath() is string path)
+        {
+            try { settings.SaveFolder(path); folder = path; FolderText.Text = path; }
+            catch (Exception error) when (error is IOException or UnauthorizedAccessException or ArgumentException)
+            { Status.Text = "Не удалось сохранить настройки"; Detail.Text = error.Message; }
+        }
     }
 
     private async void Start(object? sender, RoutedEventArgs e)

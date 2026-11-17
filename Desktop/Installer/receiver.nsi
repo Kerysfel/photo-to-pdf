@@ -8,6 +8,15 @@ Unicode True
   !error "Set OUTPUT_FILE to the installer path"
 !endif
 
+!ifndef ICON_FILE
+  !error "Set ICON_FILE to the application ICO file"
+!endif
+
+Icon "${ICON_FILE}"
+UninstallIcon "${ICON_FILE}"
+!define MUI_ICON "${ICON_FILE}"
+!define MUI_UNICON "${ICON_FILE}"
+
 Name "Фото в PDF — приёмник"
 OutFile "${OUTPUT_FILE}"
 InstallDir "$LOCALAPPDATA\Programs\PhotoToPDF Receiver"
@@ -35,9 +44,10 @@ Section "Приёмник" SEC_MAIN
   WriteUninstaller "$INSTDIR\Uninstall.exe"
   CreateDirectory "$SMPROGRAMS\Фото в PDF"
   CreateShortcut "$SMPROGRAMS\Фото в PDF\Приёмник.lnk" "$INSTDIR\PhotoToPdf.Receiver.exe"
+  CreateShortcut "$DESKTOP\Фото в PDF — приёмник.lnk" "$INSTDIR\PhotoToPdf.Receiver.exe"
   WriteRegStr HKCU "Software\PhotoToPDF\Receiver" "InstallDir" "$INSTDIR"
   WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\PhotoToPDFReceiver" "DisplayName" "Фото в PDF — приёмник"
-  WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\PhotoToPDFReceiver" "DisplayVersion" "0.1.2"
+  WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\PhotoToPDFReceiver" "DisplayVersion" "0.1.3"
   WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\PhotoToPDFReceiver" "UninstallString" '"$INSTDIR\Uninstall.exe"'
   WriteRegDWORD HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\PhotoToPDFReceiver" "NoModify" 1
   WriteRegDWORD HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\PhotoToPDFReceiver" "NoRepair" 1
@@ -46,6 +56,7 @@ SectionEnd
 Section "Uninstall"
   SetShellVarContext current
   Delete "$SMPROGRAMS\Фото в PDF\Приёмник.lnk"
+  Delete "$DESKTOP\Фото в PDF — приёмник.lnk"
   RMDir "$SMPROGRAMS\Фото в PDF"
   Delete "$INSTDIR\PhotoToPdf.Receiver.exe"
   Delete "$INSTDIR\av_libglesv2.dll"
