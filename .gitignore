@@ -9,3 +9,11 @@ xcuserdata/
 **/obj/
 publish/
 Desktop/dist/
+
+# Android
+Android/.gradle/
+Android/local.properties
+Android/**/build/
+*.keystore
+*.jks
+Android/dist/
