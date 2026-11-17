@@ -1,0 +1,22 @@
+<Window xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="PhotoToPdf.Receiver.MainWindow" Title="Фото в PDF — приёмник" Width="650" Height="720" MinWidth="480" MinHeight="600">
+  <ScrollViewer><StackPanel Margin="32" Spacing="16">
+    <TextBlock Text="Получение PDF" FontSize="26" FontWeight="SemiBold"/>
+    <TextBlock Text="Передача с телефона по локальной сети" Opacity="0.75"/>
+    <TextBlock Text="Папка сохранения" FontWeight="SemiBold"/>
+    <DockPanel LastChildFill="True"><Button DockPanel.Dock="Right" Content="Изменить…" Click="ChooseFolder"/><TextBlock Name="FolderText" VerticalAlignment="Center" TextWrapping="Wrap" Margin="0,0,12,0"/></DockPanel>
+    <TextBlock Text="Адрес компьютера" FontWeight="SemiBold"/>
+    <ComboBox Name="Addresses" HorizontalAlignment="Stretch"/>
+    <StackPanel Orientation="Horizontal" Spacing="10"><Button Name="StartButton" Content="Открыть приём" Click="Start"/><Button Name="StopButton" Content="Остановить" Click="Stop" IsEnabled="False"/></StackPanel>
+    <Border Padding="20" CornerRadius="8" BorderThickness="1" BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}">
+      <StackPanel Spacing="12">
+        <TextBlock Name="Status" Text="Приём выключен" FontWeight="SemiBold" TextWrapping="Wrap"/>
+        <TextBlock Name="Detail" Text="Откройте приём, чтобы показать QR-код для телефона." TextWrapping="Wrap"/>
+        <Image Name="QrImage" Width="250" Height="250" Stretch="Uniform" IsVisible="False" HorizontalAlignment="Left"/>
+        <ProgressBar Name="Progress" Minimum="0" Maximum="100" IsVisible="False" Height="8"/>
+        <StackPanel Name="ConfirmPanel" Orientation="Horizontal" Spacing="10" IsVisible="False"><Button Content="Принять" Click="Accept"/><Button Content="Отклонить" Click="Reject"/></StackPanel>
+      </StackPanel>
+    </Border>
+    <TextBlock Text="QR-код содержит одноразовый ключ. Показывайте его только на своём телефоне." TextWrapping="Wrap" Opacity="0.75"/>
+  </StackPanel></ScrollViewer>
+</Window>

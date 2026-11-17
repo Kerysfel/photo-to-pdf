@@ -3,3 +3,9 @@ DerivedData/
 build/
 xcuserdata/
 *.xcuserstate
+
+# .NET build output
+**/bin/
+**/obj/
+publish/
+Desktop/dist/

@@ -31,11 +31,12 @@ for config in ['Debug', 'Release']:
     else:
         project_settings += ' DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym"; SWIFT_OPTIMIZATION_LEVEL = "-O"; SWIFT_COMPILATION_MODE = wholemodule;'
     target_settings = '''CODE_SIGN_STYLE = Automatic;
-CURRENT_PROJECT_VERSION = 1;
-MARKETING_VERSION = 1.0;
+CURRENT_PROJECT_VERSION = 4;
+MARKETING_VERSION = 1.3;
 GENERATE_INFOPLIST_FILE = YES;
 INFOPLIST_KEY_CFBundleDisplayName = "Фото в PDF";
-INFOPLIST_KEY_NSCameraUsageDescription = "Камера нужна для съёмки страниц и объединения фотографий в PDF.";
+INFOPLIST_KEY_NSCameraUsageDescription = "Камера нужна для съёмки страниц и сканирования QR-кода компьютера.";
+INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Локальная сеть нужна для защищённой отправки PDF на ваш компьютер.";
 INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 INFOPLIST_KEY_UIFileSharingEnabled = YES;

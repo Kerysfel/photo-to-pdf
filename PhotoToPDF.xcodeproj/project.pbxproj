@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		111111111111111111111101 /* ComputerTransfer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111111111111111111111103 /* ComputerTransfer.swift */; };
+		111111111111111111111102 /* ComputerTransferView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111111111111111111111104 /* ComputerTransferView.swift */; };
 		29B984E5523DCD29D76CF2A6 /* PhotoToPDFApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33E883CC8522CA0C3684933 /* PhotoToPDFApp.swift */; };
 		2F06C934686E7B33FFC328CB /* PDFExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F8AF5D6A7C132225DE42F1 /* PDFExport.swift */; };
 		7822D3E2E6CEC282E80B2EE1 /* CameraScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BADE067E063ADF0E7FB36F7 /* CameraScreen.swift */; };
@@ -15,6 +17,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		111111111111111111111103 /* ComputerTransfer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComputerTransfer.swift; sourceTree = "<group>"; };
+		111111111111111111111104 /* ComputerTransferView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComputerTransferView.swift; sourceTree = "<group>"; };
 		428B1F10B0EBADCEB99B2F40 /* AppFailure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFailure.swift; sourceTree = "<group>"; };
 		597A295498406586CFBBDA7F /* PageStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageStore.swift; sourceTree = "<group>"; };
 		9BADE067E063ADF0E7FB36F7 /* CameraScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraScreen.swift; sourceTree = "<group>"; };
@@ -45,6 +49,8 @@
 		26528A5FC3CFAE9924D0FA33 /* PhotoToPDF */ = {
 			isa = PBXGroup;
 			children = (
+				111111111111111111111103 /* ComputerTransfer.swift */,
+				111111111111111111111104 /* ComputerTransferView.swift */,
 				428B1F10B0EBADCEB99B2F40 /* AppFailure.swift */,
 				9BADE067E063ADF0E7FB36F7 /* CameraScreen.swift */,
 				C9F8AF5D6A7C132225DE42F1 /* PDFExport.swift */,
@@ -131,6 +137,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				111111111111111111111101 /* ComputerTransfer.swift in Sources */,
+				111111111111111111111102 /* ComputerTransferView.swift in Sources */,
 				94AD4FD125BD7B1D39084EB5 /* AppFailure.swift in Sources */,
 				7822D3E2E6CEC282E80B2EE1 /* CameraScreen.swift in Sources */,
 				2F06C934686E7B33FFC328CB /* PDFExport.swift in Sources */,
@@ -159,11 +167,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Фото в PDF";
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
-				INFOPLIST_KEY_NSCameraUsageDescription = "Камера нужна для съёмки страниц и объединения фотографий в PDF.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Камера нужна для съёмки страниц и сканирования QR-кода компьютера.";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Локальная сеть нужна для защищённой отправки PDF на ваш компьютер.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIFileSharingEnabled = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -172,7 +181,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kerysfel.PhotoToPDF;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -199,11 +208,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Фото в PDF";
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
-				INFOPLIST_KEY_NSCameraUsageDescription = "Камера нужна для съёмки страниц и объединения фотографий в PDF.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Камера нужна для съёмки страниц и сканирования QR-кода компьютера.";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Локальная сеть нужна для защищённой отправки PDF на ваш компьютер.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIFileSharingEnabled = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -212,7 +222,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kerysfel.PhotoToPDF;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

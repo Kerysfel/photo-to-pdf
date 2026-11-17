@@ -1,0 +1,25 @@
+# Приёмник PDF
+
+Экспериментальный приёмник для Windows на .NET и Avalonia. Приложение для iPhone поддерживает отправку по QR-коду. Автообнаружение пока не реализовано.
+
+## Сборка
+
+Требуется .NET 10 SDK. Из корня репозитория:
+
+```sh
+dotnet build Desktop/PhotoToPdf.Receiver/PhotoToPdf.Receiver.csproj -c Release
+dotnet run --project Desktop/Receiver.Tests/Receiver.Tests.csproj -c Release
+dotnet publish Desktop/PhotoToPdf.Receiver/PhotoToPdf.Receiver.csproj -c Release -r win-x64 --self-contained true -o publish/win-x64
+```
+
+Весь каталог публикации нужен для запуска, включая библиотеки DLL. Для создания установщика нужен NSIS:
+
+```sh
+makensis -DPUBLISH_DIR=/абсолютный/путь/publish/win-x64 -DOUTPUT_FILE=/абсолютный/путь/PhotoToPDF-Receiver-Setup.exe Desktop/Installer/receiver.nsi
+```
+
+Установщик не подписан и ещё не проверен на Windows; перед выпуском необходимы проверка установки и удаления и решение о подписи. Windows может показать предупреждение при запуске неподписанной программы. При запросе сетевого экрана следует разрешать доступ только в доверенных частных сетях.
+
+Откройте приём, выберите сетевой адрес, отсканируйте QR-код совместимым клиентом и подтвердите получение файла. QR-код — секретное одноразовое приглашение: его нельзя публиковать или показывать посторонним. Сессия принимает одно подключение и действует не дольше 10 минут. Для нового подключения требуется новый QR-код. Максимальный размер PDF — 2 ГиБ.
+
+Протокол находится в [PROTOCOL.md](PROTOCOL.md) и ещё не прошёл независимый аудит.

@@ -21,6 +21,7 @@ struct ContentView: View {
     @State private var selected: [PhotosPickerItem] = []
     @State private var shared: SharedPDF?
     @State private var showHistory = false
+    @State private var computerPDF: SharedPDF?
     @State private var confirmClear = false
 
     var body: some View {
@@ -80,6 +81,15 @@ struct ContentView: View {
                             .frame(maxWidth: .infinity)
                     }.buttonStyle(.borderedProminent).tint(.indigo)
                         .disabled(store.pages.isEmpty)
+                    Button {
+                        Task {
+                            do { computerPDF = SharedPDF(url: try await store.export(quality: quality)) }
+                            catch { store.error = error.localizedDescription }
+                        }
+                    } label: {
+                        Label("Отправить на компьютер", systemImage: "desktopcomputer")
+                            .frame(maxWidth: .infinity)
+                    }.buttonStyle(.bordered).disabled(store.pages.isEmpty)
                     Text("PDF: A4 · 1 фото = 1 страница · без ограничения 200 страниц")
                         .font(.caption2).foregroundStyle(.secondary)
                 }.padding()
@@ -108,6 +118,7 @@ struct ContentView: View {
                 }
             }
             .sheet(isPresented: $showHistory) { ProjectHistory(store: store) }
+            .sheet(item: $computerPDF) { item in ComputerTransferView(url: item.url) }
             .confirmationDialog("Начать новый комплект?", isPresented: $confirmClear, titleVisibility: .visible) {
                 Button("Очистить все снимки и начать новый", role: .destructive) { store.startNewProject() }
                 Button("Отмена", role: .cancel) {}
@@ -205,10 +216,17 @@ private struct ProjectHistory: View {
 private struct PDFProjectView: View {
     let project: PDFProject
     @State private var share = false
+    @State private var sendToComputer = false
     var body: some View {
         PDFPreview(url: project.url)
             .navigationTitle(project.title).navigationBarTitleDisplayMode(.inline)
-            .toolbar { Button { share = true } label: { Image(systemName: "square.and.arrow.up") } }
+            .toolbar {
+                ToolbarItemGroup {
+                    Button { sendToComputer = true } label: { Image(systemName: "desktopcomputer") }
+                    Button { share = true } label: { Image(systemName: "square.and.arrow.up") }
+                }
+            }
+            .sheet(isPresented: $sendToComputer) { ComputerTransferView(url: project.url) }
             .sheet(isPresented: $share) {
                 ShareSheet(url: project.url) { _, _ in share = false }
             }
