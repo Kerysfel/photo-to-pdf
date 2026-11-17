@@ -37,7 +37,7 @@ Section "Приёмник" SEC_MAIN
   CreateShortcut "$SMPROGRAMS\Фото в PDF\Приёмник.lnk" "$INSTDIR\PhotoToPdf.Receiver.exe"
   WriteRegStr HKCU "Software\PhotoToPDF\Receiver" "InstallDir" "$INSTDIR"
   WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\PhotoToPDFReceiver" "DisplayName" "Фото в PDF — приёмник"
-  WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\PhotoToPDFReceiver" "DisplayVersion" "0.1.1"
+  WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\PhotoToPDFReceiver" "DisplayVersion" "0.1.2"
   WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\PhotoToPDFReceiver" "UninstallString" '"$INSTDIR\Uninstall.exe"'
   WriteRegDWORD HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\PhotoToPDFReceiver" "NoModify" 1
   WriteRegDWORD HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\PhotoToPDFReceiver" "NoRepair" 1

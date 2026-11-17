@@ -18,5 +18,11 @@
       </StackPanel>
     </Border>
     <TextBlock Text="QR-код содержит одноразовый ключ. Показывайте его только на своём телефоне." TextWrapping="Wrap" Opacity="0.75"/>
+    <Separator/>
+    <TextBlock Name="UpdateStatus" Text="Проверка обновлений на GitHub…" TextWrapping="Wrap" Opacity="0.8"/>
+    <StackPanel Orientation="Horizontal" Spacing="10">
+      <Button Name="UpdateButton" Content="Скачать и установить" Click="InstallUpdate" IsVisible="False"/>
+      <Button Name="CheckUpdateButton" Content="Проверить обновления" Click="CheckUpdates"/>
+    </StackPanel>
   </StackPanel></ScrollViewer>
 </Window>

@@ -1,6 +1,7 @@
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
+using System.Diagnostics;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Media.Imaging;
@@ -13,6 +14,8 @@ public partial class MainWindow : Window
 {
     private Receiver? receiver;
     private TaskCompletionSource<bool>? confirmation;
+    private AvailableUpdate? availableUpdate;
+    private readonly CancellationTokenSource updateCancellation = new();
     private string folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Фото в PDF");
 
     public MainWindow()
@@ -28,7 +31,8 @@ public partial class MainWindow : Window
             .DistinctBy(a => a.Address).ToArray();
         Addresses.ItemsSource = addresses;
         if (addresses.Length > 0) Addresses.SelectedIndex = 0;
-        Closed += (_, _) => { confirmation?.TrySetResult(false); receiver?.Dispose(); };
+        Opened += async (_, _) => { Updates.CleanOldInstallers(); await RefreshUpdates(); };
+        Closed += (_, _) => { updateCancellation.Cancel(); confirmation?.TrySetResult(false); receiver?.Dispose(); };
     }
 
     private async void ChooseFolder(object? sender, RoutedEventArgs e)
@@ -77,6 +81,44 @@ public partial class MainWindow : Window
     private void Accept(object? sender, RoutedEventArgs e) { ConfirmPanel.IsVisible = false; Status.Text = "Получение файла"; confirmation?.TrySetResult(true); }
     private void Reject(object? sender, RoutedEventArgs e) => confirmation?.TrySetResult(false);
     private void Stop(object? sender, RoutedEventArgs e) { confirmation?.TrySetResult(false); receiver?.Dispose(); receiver = null; }
+
+    private async void CheckUpdates(object? sender, RoutedEventArgs e) => await RefreshUpdates();
+
+    private async Task RefreshUpdates()
+    {
+        CheckUpdateButton.IsEnabled = false;
+        UpdateStatus.Text = "Проверка обновлений на GitHub…";
+        try
+        {
+            availableUpdate = await Updates.CheckAsync(updateCancellation.Token);
+            UpdateButton.IsVisible = availableUpdate != null;
+            UpdateStatus.Text = availableUpdate == null ? $"Версия {Updates.CurrentTag}: обновлений нет." :
+                $"Доступна версия {availableUpdate.Tag}. Установщик будет загружен с GitHub и запущен после нажатия кнопки.";
+        }
+        catch (OperationCanceledException) { }
+        catch (Exception) { UpdateStatus.Text = "Не удалось проверить обновления. Проверьте подключение к интернету."; }
+        finally { CheckUpdateButton.IsEnabled = true; }
+    }
+
+    private async void InstallUpdate(object? sender, RoutedEventArgs e)
+    {
+        if (availableUpdate == null) return;
+        if (receiver != null) { UpdateStatus.Text = "Сначала остановите приём файла."; return; }
+        UpdateButton.IsEnabled = false;
+        CheckUpdateButton.IsEnabled = false;
+        StartButton.IsEnabled = false;
+        try
+        {
+            UpdateStatus.Text = "Загрузка и проверка установщика…";
+            var path = await Updates.DownloadAsync(availableUpdate, updateCancellation.Token);
+            if (Process.Start(new ProcessStartInfo(path) { UseShellExecute = true }) == null)
+                throw new InvalidOperationException("Не удалось запустить установщик.");
+            Close();
+        }
+        catch (OperationCanceledException) { }
+        catch (Exception error) { UpdateStatus.Text = $"Не удалось установить обновление: {error.Message}"; }
+        finally { UpdateButton.IsEnabled = true; CheckUpdateButton.IsEnabled = true; StartButton.IsEnabled = true; }
+    }
 
     private static bool IsLocalAddress(IPAddress address)
     {

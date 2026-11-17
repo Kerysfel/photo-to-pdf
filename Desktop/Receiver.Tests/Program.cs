@@ -10,6 +10,7 @@ var folder = Path.Combine(Path.GetTempPath(), "phototopdf-test-" + Guid.NewGuid(
 Directory.CreateDirectory(folder);
 try
 {
+    TestUpdateSelection();
     await RejectWrongCertificate();
     await Run("success");
     await Run("wrong-secret");
@@ -18,6 +19,24 @@ try
     Console.WriteLine("All receiver tests passed.");
 }
 finally { Directory.Delete(folder, true); }
+
+static void TestUpdateSelection()
+{
+    string hash = new string('a', 64);
+    string json = $$"""
+    [
+      {"draft":false,"tag_name":"v1.4.0-preview.3","assets":[{"name":"PhotoToPDF-Receiver-Windows-x64-Setup.exe","browser_download_url":"https://github.com/Kerysfel/photo-to-pdf/releases/download/v1.4.0-preview.3/PhotoToPDF-Receiver-Windows-x64-Setup.exe","digest":"sha256:{{hash}}","size":100}]},
+      {"draft":false,"tag_name":"v1.5.0-preview.1","assets":[{"name":"PhotoToPDF-Receiver-Windows-x64-Setup.exe","browser_download_url":"https://example.com/evil.exe","digest":"sha256:{{hash}}","size":100}]},
+      {"draft":true,"tag_name":"v2.0.0","assets":[]}
+    ]
+    """;
+    using var document = JsonDocument.Parse(json);
+    if (Updates.FindLatest(document.RootElement, "v1.4.0-preview.2")?.Tag != "v1.4.0-preview.3")
+        throw new Exception("Update selection failed");
+    if (Updates.FindLatest(document.RootElement, "v1.4.0") != null)
+        throw new Exception("Update selection offered an older preview");
+    Console.WriteLine("update-selection: passed");
+}
 
 async Task Run(string mode)
 {
