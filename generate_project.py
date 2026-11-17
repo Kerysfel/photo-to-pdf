@@ -31,8 +31,8 @@ for config in ['Debug', 'Release']:
     else:
         project_settings += ' DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym"; SWIFT_OPTIMIZATION_LEVEL = "-O"; SWIFT_COMPILATION_MODE = wholemodule;'
     target_settings = '''CODE_SIGN_STYLE = Automatic;
-CURRENT_PROJECT_VERSION = 4;
-MARKETING_VERSION = 1.3;
+CURRENT_PROJECT_VERSION = 6;
+MARKETING_VERSION = 1.4;
 GENERATE_INFOPLIST_FILE = YES;
 INFOPLIST_KEY_CFBundleDisplayName = "Фото в PDF";
 INFOPLIST_KEY_NSCameraUsageDescription = "Камера нужна для съёмки страниц и сканирования QR-кода компьютера.";

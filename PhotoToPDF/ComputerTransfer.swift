@@ -16,9 +16,11 @@ struct ReceiverInvitation: Decodable {
               value.version == 1, value.port != 0,
               let secret = Data(base64Encoded: value.secret), secret.count == 32,
               value.certificateSha256.count == 64,
-              value.certificateSha256.utf8.allSatisfy({ (48...57).contains($0) || (97...102).contains($0) }),
-              isPrivateIPv4(value.host) else {
+              value.certificateSha256.utf8.allSatisfy({ (48...57).contains($0) || (97...102).contains($0) }) else {
             throw AppFailure.message("QR-код приёмника недействителен.")
+        }
+        guard isPrivateIPv4(value.host) else {
+            throw AppFailure.message("В приёмнике выбран неподходящий сетевой адрес. Выберите адрес Wi-Fi или локальной сети, например 192.168… или 10.…, и откройте новый QR-код.")
         }
         return value
     }

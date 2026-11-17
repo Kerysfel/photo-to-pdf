@@ -11,12 +11,14 @@ struct ComputerTransferView: View {
     @State private var status = "Отсканируйте QR-код на экране своего компьютера."
     @State private var progress = 0.0
     @State private var finished = false
+    @State private var scanning = true
 
     var body: some View {
         NavigationStack {
             VStack(spacing: 20) {
-                if invitation == nil && cameraAllowed == true {
+                if scanning && invitation == nil && cameraAllowed == true {
                     QRScanner { code in
+                        scanning = false
                         do {
                             invitation = try ReceiverInvitation.parse(code)
                             status = "Подключение к компьютеру…"
@@ -32,6 +34,12 @@ struct ComputerTransferView: View {
                     }
                 }
                 Text(status).multilineTextAlignment(.center)
+                if !scanning && invitation == nil && !finished && cameraAllowed == true {
+                    Button("Сканировать снова") {
+                        status = "Отсканируйте QR-код на экране своего компьютера."
+                        scanning = true
+                    }.buttonStyle(.bordered)
+                }
                 if invitation != nil && !finished { ProgressView(value: progress) }
                 if finished { Image(systemName: "checkmark.circle.fill").font(.largeTitle).foregroundStyle(.green) }
                 Spacer()
@@ -111,7 +119,5 @@ private final class QRScannerController: UIViewController, AVCaptureMetadataOutp
         guard !delivered, let code = (metadataObjects.first as? AVMetadataMachineReadableCodeObject)?.stringValue else { return }
         delivered = true
         onCode(code)
-        // Invalid codes remain scannable without reopening the screen.
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in self?.delivered = false }
     }
 }

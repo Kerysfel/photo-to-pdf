@@ -110,6 +110,15 @@ final class PageStore: ObservableObject {
             }.sorted { $0.date > $1.date }
     }
 
+    func deleteProject(_ project: PDFProject) throws {
+        guard history.contains(where: { $0.id == project.id && $0.url == project.url }),
+              project.url.deletingLastPathComponent().standardizedFileURL == exports.standardizedFileURL else {
+            throw AppFailure.message("Проект не найден в истории.")
+        }
+        try FileManager.default.removeItem(at: project.url)
+        history.removeAll { $0.id == project.id }
+    }
+
     // Move the entire session as one operation. Old JPEGs cannot be recovered
     // into the new session. Remove them only after the empty session is persisted.
     func startNewProject() {

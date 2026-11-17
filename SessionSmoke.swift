@@ -42,7 +42,20 @@ struct SessionTests: App {
             try FileManager.default.copyItem(at: pdf, to: legacy)
             try restored.loadHistory()
             guard restored.history.count == 3 else { throw AppFailure.message("Legacy PDF migration failed") }
-            try "PASS: export 2 pages; clear all JPEGs; keep PDF; restart; new 1-page project; history 3 PDFs including legacy".write(to: result, atomically: true, encoding: .utf8)
+            guard let legacyProject = restored.history.first(where: { $0.url == legacy }) else {
+                throw AppFailure.message("Legacy project missing")
+            }
+            let currentPhoto = restored.url(for: restored.pages[0])
+            try restored.deleteProject(legacyProject)
+            guard !FileManager.default.fileExists(atPath: legacy.path),
+                  FileManager.default.fileExists(atPath: pdf.path),
+                  FileManager.default.fileExists(atPath: currentPhoto.path),
+                  restored.history.count == 2 else { throw AppFailure.message("History deletion affected other files") }
+            let afterDeletion = PageStore(documentsDirectory: isolated)
+            guard afterDeletion.history.count == 2, afterDeletion.pages.count == 1 else {
+                throw AppFailure.message("Deleted project returned after restart")
+            }
+            try "PASS: history deletion removes only selected PDF and persists after restart".write(to: result, atomically: true, encoding: .utf8)
         } catch {
             try? "FAIL: \(error)".write(to: result, atomically: true, encoding: .utf8)
         }

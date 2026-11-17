@@ -185,6 +185,8 @@ private struct ShareSheet: UIViewControllerRepresentable {
 private struct ProjectHistory: View {
     @ObservedObject var store: PageStore
     @Environment(\.dismiss) private var dismiss
+    @State private var projectToDelete: PDFProject?
+    @State private var deleteError: String?
     var body: some View {
         NavigationStack {
             Group {
@@ -204,11 +206,31 @@ private struct ProjectHistory: View {
                                     .font(.caption).foregroundStyle(.secondary)
                             }.padding(.vertical, 4)
                         }
+                        .swipeActions {
+                            Button(role: .destructive) { projectToDelete = project } label: {
+                                Label("Удалить", systemImage: "trash")
+                            }
+                        }
                     }
                 }
             }
             .navigationTitle("История проектов")
             .toolbar { Button("Готово") { dismiss() } }
+            .confirmationDialog("Удалить проект?", isPresented: Binding(
+                get: { projectToDelete != nil }, set: { if !$0 { projectToDelete = nil } }
+            ), titleVisibility: .visible, presenting: projectToDelete) { project in
+                Button("Удалить PDF", role: .destructive) {
+                    do { try store.deleteProject(project) }
+                    catch { deleteError = error.localizedDescription }
+                    projectToDelete = nil
+                }
+                Button("Отмена", role: .cancel) { projectToDelete = nil }
+            } message: { project in
+                Text("«\(project.title)» будет удалён из истории и памяти приложения. Текущие снимки и копии в других приложениях сохранятся.")
+            }
+            .alert("Не удалось удалить проект", isPresented: Binding(
+                get: { deleteError != nil }, set: { if !$0 { deleteError = nil } }
+            )) { Button("OK") { deleteError = nil } } message: { Text(deleteError ?? "") }
         }
     }
 }
@@ -222,6 +244,9 @@ private struct PDFProjectView: View {
             .navigationTitle(project.title).navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItemGroup {
+                    NavigationLink { PDFPagesView(project: project) } label: {
+                        Image(systemName: "square.grid.2x2")
+                    }.accessibilityLabel("Страницы проекта")
                     Button { sendToComputer = true } label: { Image(systemName: "desktopcomputer") }
                     Button { share = true } label: { Image(systemName: "square.and.arrow.up") }
                 }
@@ -233,12 +258,57 @@ private struct PDFProjectView: View {
     }
 }
 
+private struct PDFPagesView: View {
+    let project: PDFProject
+    var body: some View {
+        List(0..<project.pageCount, id: \.self) { index in
+            NavigationLink {
+                PDFPreview(url: project.url, pageIndex: index)
+                    .navigationTitle("Страница \(index + 1)")
+                    .navigationBarTitleDisplayMode(.inline)
+            } label: {
+                HStack(spacing: 14) {
+                    PDFPageThumbnail(url: project.url, index: index)
+                    Text("Страница \(index + 1)")
+                }
+            }
+        }
+        .navigationTitle("Страницы")
+    }
+}
+
+private struct PDFPageThumbnail: View {
+    let url: URL
+    let index: Int
+    @State private var image: UIImage?
+
+    var body: some View {
+        Group {
+            if let image { Image(uiImage: image).resizable().scaledToFit() }
+            else { Image(systemName: "doc").foregroundStyle(.secondary) }
+        }
+        .frame(width: 54, height: 72)
+        .task {
+            let thumbnail = await Task.detached(priority: .utility) {
+                PDFDocument(url: url)?.page(at: index)?.thumbnail(of: CGSize(width: 108, height: 144), for: .mediaBox)
+            }.value
+            if !Task.isCancelled { image = thumbnail }
+        }
+        .onDisappear { image = nil }
+    }
+}
+
 private struct PDFPreview: UIViewRepresentable {
     let url: URL
+    var pageIndex: Int? = nil
     func makeUIView(context: Context) -> PDFView {
         let view = PDFView()
         view.autoScales = true
         view.document = PDFDocument(url: url)
+        if let pageIndex, let page = view.document?.page(at: pageIndex) {
+            view.displayMode = .singlePage
+            view.go(to: page)
+        }
         return view
     }
     func updateUIView(_ view: PDFView, context: Context) {}

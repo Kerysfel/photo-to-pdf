@@ -21,9 +21,11 @@ public partial class MainWindow : Window
         FolderText.Text = folder;
         var addresses = NetworkInterface.GetAllNetworkInterfaces()
             .Where(n => n.OperationalStatus == OperationalStatus.Up && n.NetworkInterfaceType != NetworkInterfaceType.Loopback)
-            .SelectMany(n => n.GetIPProperties().UnicastAddresses)
-            .Select(a => a.Address).Where(a => a.AddressFamily == AddressFamily.InterNetwork && !IPAddress.IsLoopback(a))
-            .Distinct().ToArray();
+            .OrderBy(n => n.NetworkInterfaceType is NetworkInterfaceType.Wireless80211 or NetworkInterfaceType.Ethernet ? 0 : 1)
+            .SelectMany(n => n.GetIPProperties().UnicastAddresses
+                .Select(a => new NetworkAddress(n.Name, a.Address)))
+            .Where(a => IsLocalAddress(a.Address))
+            .DistinctBy(a => a.Address).ToArray();
         Addresses.ItemsSource = addresses;
         if (addresses.Length > 0) Addresses.SelectedIndex = 0;
         Closed += (_, _) => { confirmation?.TrySetResult(false); receiver?.Dispose(); };
@@ -37,13 +39,13 @@ public partial class MainWindow : Window
 
     private async void Start(object? sender, RoutedEventArgs e)
     {
-        if (Addresses.SelectedItem is not IPAddress address) { Status.Text = "Локальный адрес не найден"; return; }
+        if (Addresses.SelectedItem is not NetworkAddress selected) { Status.Text = "Локальный адрес не найден"; Detail.Text = "Подключите компьютер к локальной сети и перезапустите приложение."; return; }
         try
         {
             var session = new Receiver();
             receiver = session;
             using var generator = new QRCodeGenerator();
-            using var data = generator.CreateQrCode(session.Invitation(address), QRCodeGenerator.ECCLevel.Q);
+            using var data = generator.CreateQrCode(session.Invitation(selected.Address), QRCodeGenerator.ECCLevel.Q);
             using var png = new MemoryStream(new PngByteQRCode(data).GetGraphic(5));
             QrImage.Source = new Bitmap(png);
             QrImage.IsVisible = true;
@@ -75,4 +77,17 @@ public partial class MainWindow : Window
     private void Accept(object? sender, RoutedEventArgs e) { ConfirmPanel.IsVisible = false; Status.Text = "Получение файла"; confirmation?.TrySetResult(true); }
     private void Reject(object? sender, RoutedEventArgs e) => confirmation?.TrySetResult(false);
     private void Stop(object? sender, RoutedEventArgs e) { confirmation?.TrySetResult(false); receiver?.Dispose(); receiver = null; }
+
+    private static bool IsLocalAddress(IPAddress address)
+    {
+        if (address.AddressFamily != AddressFamily.InterNetwork) return false;
+        var b = address.GetAddressBytes();
+        return b[0] == 10 || (b[0] == 172 && b[1] is >= 16 and <= 31) ||
+               (b[0] == 192 && b[1] == 168) || (b[0] == 169 && b[1] == 254);
+    }
+
+    private sealed record NetworkAddress(string Name, IPAddress Address)
+    {
+        public override string ToString() => $"{Name} — {Address}";
+    }
 }

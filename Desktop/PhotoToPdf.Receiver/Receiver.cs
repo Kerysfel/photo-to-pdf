@@ -23,7 +23,19 @@ internal sealed class Receiver : IDisposable
     public Receiver()
     {
         var request = new CertificateRequest("CN=PhotoToPDF Receiver", key, HashAlgorithmName.SHA256);
-        certificate = request.CreateSelfSigned(DateTimeOffset.UtcNow.AddMinutes(-5), DateTimeOffset.UtcNow.AddDays(1));
+        var generated = request.CreateSelfSigned(DateTimeOffset.UtcNow.AddMinutes(-5), DateTimeOffset.UtcNow.AddDays(1));
+        if (OperatingSystem.IsWindows())
+        {
+            // Schannel requires a key accessible outside the process. DefaultKeySet
+            // imports it into the user profile and removes it when the certificate is disposed.
+            var pfx = generated.Export(X509ContentType.Pkcs12);
+            try { certificate = X509CertificateLoader.LoadPkcs12(pfx, null, X509KeyStorageFlags.UserKeySet); }
+            finally { CryptographicOperations.ZeroMemory(pfx); generated.Dispose(); }
+        }
+        else
+        {
+            certificate = generated;
+        }
         listener.Start(1);
     }
 
