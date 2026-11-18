@@ -4,7 +4,7 @@
 
 PDF можно отправить с iPhone или Android на Mac или Windows напрямую по локальной сети. Соединение шифруется с помощью TLS, а получатель проверяется по QR-коду.
 
-[Скачать приложения и приёмник](https://github.com/Kerysfel/photo-to-pdf/releases/tag/v1.6.0-preview.1)
+[Скачать приложения и приёмник](https://github.com/Kerysfel/photo-to-pdf/releases/tag/v1.6.0-release)
 
 ## Установка на iPhone
 
