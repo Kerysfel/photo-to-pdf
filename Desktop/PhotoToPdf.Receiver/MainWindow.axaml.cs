@@ -17,7 +17,11 @@ public partial class MainWindow : Window
     private AvailableUpdate? availableUpdate;
     private readonly CancellationTokenSource updateCancellation = new();
     private string folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Фото в PDF");
-    private readonly ReceiverSettings settings = new(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PhotoToPDF", "Receiver"));
+    private readonly ReceiverSettings settings = new(Path.Combine(
+        OperatingSystem.IsMacOS()
+            ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "Library", "Application Support")
+            : Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+        "PhotoToPDF", "Receiver"));
 
     public MainWindow()
     {
@@ -35,7 +39,9 @@ public partial class MainWindow : Window
             .DistinctBy(a => a.Address).ToArray();
         Addresses.ItemsSource = addresses;
         if (addresses.Length > 0) Addresses.SelectedIndex = 0;
-        Opened += async (_, _) => { Updates.CleanOldInstallers(); await RefreshUpdates(); };
+        UpdatePanel.IsVisible = OperatingSystem.IsWindows();
+        if (OperatingSystem.IsWindows())
+            Opened += async (_, _) => { Updates.CleanOldInstallers(); await RefreshUpdates(); };
         Closed += (_, _) => { updateCancellation.Cancel(); confirmation?.TrySetResult(false); receiver?.Dispose(); };
     }
 

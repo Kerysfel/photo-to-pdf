@@ -9,7 +9,7 @@ internal sealed record AvailableUpdate(string Tag, string DownloadUrl, string Sh
 internal static partial class Updates
 {
     // Release tag of the running build. Only releases with Windows x64 installers are offered.
-    public const string CurrentTag = "v1.5.0-preview.1";
+    public const string CurrentTag = "v1.6.0-preview.1";
     private const long MaxInstallerSize = 200L * 1024 * 1024;
     private static readonly string UpdateDirectory = Path.Combine(Path.GetTempPath(), "PhotoToPDF-Receiver-Updates");
     private static readonly HttpClient Http = CreateHttpClient();

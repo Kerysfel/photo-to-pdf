@@ -27,9 +27,37 @@ try
     await Run("wrong-secret");
     await Run("wrong-hash");
     await Run("interrupted");
+    await RunLarge();
     Console.WriteLine("All receiver tests passed.");
 }
 finally { Directory.Delete(folder, true); }
+
+async Task RunLarge()
+{
+    using var receiver = new Receiver();
+    var invite = JsonDocument.Parse(receiver.Invitation(IPAddress.Loopback)).RootElement;
+    var receive = receiver.ReceiveAsync(folder, (_, _) => Task.FromResult(true), new Progress<double>());
+    using var client = new TcpClient();
+    await client.ConnectAsync(IPAddress.Loopback, invite.GetProperty("port").GetInt32());
+    var fingerprint = invite.GetProperty("certificateSha256").GetString();
+    await using var tls = new SslStream(client.GetStream(), false, (_, cert, _, _) =>
+        cert != null && Convert.ToHexString(SHA256.HashData(cert.GetRawCertData())).Equals(fingerprint, StringComparison.OrdinalIgnoreCase));
+    await tls.AuthenticateAsClientAsync("localhost");
+    const int blocks = 2048;
+    byte[] block = new byte[65536];
+    RandomNumberGenerator.Fill(block);
+    await Write(tls, new { secret = invite.GetProperty("secret").GetString(), name = "large.pdf", size = (long)blocks * block.Length });
+    if ((await Read(tls)).GetProperty("status").GetString() != "accepted") throw new Exception("Large offer not accepted");
+    using var digest = IncrementalHash.CreateHash(HashAlgorithmName.SHA256);
+    for (int i = 0; i < blocks; i++) { digest.AppendData(block); await tls.WriteAsync(block); }
+    byte[] expected = digest.GetHashAndReset();
+    await Write(tls, new { sha256 = Convert.ToHexString(expected) });
+    if ((await Read(tls)).GetProperty("status").GetString() != "saved") throw new Exception("Large file not acknowledged");
+    string result = await receive;
+    using var file = File.OpenRead(result);
+    if (!CryptographicOperations.FixedTimeEquals(expected, SHA256.HashData(file))) throw new Exception("Large file mismatch");
+    Console.WriteLine("large-transfer-128MiB: passed");
+}
 
 static void TestUpdateSelection()
 {
@@ -46,6 +74,12 @@ static void TestUpdateSelection()
         throw new Exception("Update selection failed");
     if (Updates.FindLatest(document.RootElement, "v1.4.0") != null)
         throw new Exception("Update selection offered an older preview");
+    string currentRelease = $$"""
+    [{"draft":false,"tag_name":"v1.6.0-preview.1","assets":[{"name":"PhotoToPDF-Receiver-Windows-x64-Setup-0.1.4.exe","browser_download_url":"https://github.com/Kerysfel/photo-to-pdf/releases/download/v1.6.0-preview.1/PhotoToPDF-Receiver-Windows-x64-Setup-0.1.4.exe","digest":"sha256:{{hash}}","size":100}]}]
+    """;
+    using var currentDocument = JsonDocument.Parse(currentRelease);
+    if (Updates.FindLatest(currentDocument.RootElement, Updates.CurrentTag) != null)
+        throw new Exception("Current release was offered as an update");
     Console.WriteLine("update-selection: passed");
 }
 
